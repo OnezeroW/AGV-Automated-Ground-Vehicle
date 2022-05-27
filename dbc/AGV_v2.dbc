@@ -1,0 +1,88 @@
+VERSION "HIPBNYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY/4/%%%/4/'%**4YYY///"
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+
+BS_:
+
+BU_:
+
+
+BO_ 336 Wheel_Torque_Control: 8 Vector__XXX
+ SG_ FL_Torque_Ctrl : 7|16@0- (1,0) [0|0] "" Vector__XXX
+ SG_ FR_Torque_Ctrl : 23|16@0- (1,0) [0|0] "" Vector__XXX
+ SG_ RL_Torque_Ctrl : 39|16@0- (1,0) [0|0] "" Vector__XXX
+ SG_ RR_Torque_Ctrl : 55|16@0- (1,0) [0|0] "" Vector__XXX
+
+BO_ 337 Steering_Brake_Control: 8 Vector__XXX
+ SG_ Front_Steering : 7|16@0- (1,0) [0|0] "" Vector__XXX
+ SG_ Rear_Steering : 23|16@0- (1,0) [0|0] "" Vector__XXX
+ SG_ Brake : 39|16@0- (1,0) [0|0] "" Vector__XXX
+
+BO_ 535 FL_Wheel_Spd_Feedback: 8 Vector__XXX
+ SG_ FL_Wheel_Spd : 0|16@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 551 FR_Wheel_Spd_Feedback: 8 Vector__XXX
+ SG_ FR_Wheel_Spd : 0|16@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 567 RL_Wheel_Spd_Feedback: 8 Vector__XXX
+ SG_ RL_Wheel_Spd : 0|16@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 583 RR_Wheel_Spd_Feedback: 8 Vector__XXX
+ SG_ RR_Wheel_Spd : 0|16@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 352 Steering_Feedback: 8 Vector__XXX
+ SG_ Front_Str_Angle : 7|16@0- (1,0) [0|0] "" Vector__XXX
+ SG_ Front_Str_Spd : 23|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Rear_Str_Angle : 31|16@0- (1,0) [0|0] "" Vector__XXX
+ SG_ Rear_Str_Spd : 47|8@0+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 1168 Brake_Feedback_1: 8 Vector__XXX
+ SG_ Brake_Feedback_1 : 7|16@0- (1,0) [0|0] "" Vector__XXX
+
+BO_ 2337407233 Brake_Feedback_2: 8 Vector__XXX
+ SG_ Brake_Feedback_2 : 7|16@0- (1,0) [0|0] "" Vector__XXX
+
+BO_ 2550267892 Battery_BMS: 8 Vector__XXX
+ SG_ Voltage : 0|16@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Current : 16|16@1- (1,0) [0|0] "" Vector__XXX
+ SG_ SOC : 32|16@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Status_1 : 48|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Status_2 : 56|8@1+ (1,0) [0|0] "" Vector__XXX
+
+BO_ 2315256321 GPS_Lati: 8 Vector__XXX
+ SG_ Lati_h : 0|32@1- (1,0) [0|0] "" Vector__XXX
+ SG_ Lati_l : 32|32@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 2315256322 GPS_Long: 8 Vector__XXX
+ SG_ Long_h : 0|32@1- (1,0) [0|0] "" Vector__XXX
+ SG_ Long_l : 32|32@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 2315256323 GPS_Vel: 8 Vector__XXX
+ SG_ GPS_VelE : 32|32@1- (1,0) [0|0] "" Vector__XXX
+ SG_ GPS_VelN : 0|32@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 2315256320 GPS_Time: 8 Vector__XXX
+ SG_ GPS_Time : 0|32@1- (1,0) [0|0] "" Vector__XXX
+
+

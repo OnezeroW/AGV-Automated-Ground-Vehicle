@@ -1,0 +1,192 @@
+VERSION ""
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_:
+
+
+BO_ 2348810497 Steering_ControlMessage: 8 Vector__XXX
+ SG_ CAN_Mode : 7|8@0- (1,0) [0|0] "" Vector__XXX
+ SG_ Str_Front : 15|16@0- (1,0) [0|0] "" Vector__XXX
+ SG_ Str_Rear : 31|16@0- (1,0) [0|0] "" Vector__XXX
+ SG_ Tor_FL : 47|16@0- (1,0) [0|0] "" Vector__XXX
+
+BO_ 2348810498 Driving_ControlMessage: 8 Vector__XXX
+ SG_ Tor_FR : 7|16@0- (1,0) [0|0] "" Vector__XXX
+ SG_ Tor_RL : 23|16@0- (1,0) [0|0] "" Vector__XXX
+ SG_ Tor_RR : 39|16@0- (1,0) [0|0] "" Vector__XXX
+
+BO_ 2337407233 D1_1Message: 8 Vector__XXX
+ SG_ Cmd_ID_1_1 : 7|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Pre_Stu_1 : 15|8@0- (1,0) [0|0] "" Vector__XXX
+ SG_ Torque_Fbk_1 : 39|16@0- (0.001,0) [0|0] "" Vector__XXX
+
+BO_ 2337407489 D1_2Message: 8 Vector__XXX
+ SG_ Cmd_ID_1_2 : 7|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Motor_Spd_1 : 15|16@0- (1,0) [0|0] "" Vector__XXX
+ SG_ Direction_1 : 47|8@0- (1,0) [0|0] "" Vector__XXX
+
+BO_ 2337407234 D2_1Message: 8 Vector__XXX
+ SG_ Cmd_ID_2_1 : 7|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Pre_Stu_2 : 15|8@0- (1,0) [0|0] "" Vector__XXX
+ SG_ Torque_Fbk_2 : 39|16@0- (0.001,0) [0|0] "" Vector__XXX
+
+BO_ 2337407490 D2_2Message: 8 Vector__XXX
+ SG_ Cmd_ID_2_2 : 7|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Motor_Spd_2 : 15|16@0- (1,0) [0|0] "" Vector__XXX
+ SG_ Direction_2 : 47|8@0- (1,0) [0|0] "" Vector__XXX
+
+BO_ 2337407235 D3_1Message: 8 Vector__XXX
+ SG_ Cmd_ID_3_1 : 7|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Pre_Stu_3 : 15|8@0- (1,0) [0|0] "" Vector__XXX
+ SG_ Torque_Fbk_3 : 39|16@0- (0.001,0) [0|0] "" Vector__XXX
+
+BO_ 2337407491 D3_2Message: 8 Vector__XXX
+ SG_ Cmd_ID_3_2 : 7|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Motor_Spd_3 : 15|16@0- (1,0) [0|0] "" Vector__XXX
+ SG_ Direction_3 : 47|8@0- (1,0) [0|0] "" Vector__XXX
+
+BO_ 2337407236 D4_1Message: 8 Vector__XXX
+ SG_ Cmd_ID_4_1 : 7|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Pre_Stu_4 : 15|8@0- (1,0) [0|0] "" Vector__XXX
+ SG_ Torque_Fbk_4 : 39|16@0- (0.001,0) [0|0] "" Vector__XXX
+
+BO_ 2337407492 D4_2Message: 8 Vector__XXX
+ SG_ Cmd_ID_4_2 : 7|8@0+ (1,0) [0|0] "" Vector__XXX
+ SG_ Motor_Spd_4 : 15|16@0- (1,0) [0|0] "" Vector__XXX
+ SG_ Direction_4 : 47|8@0- (1,0) [0|0] "" Vector__XXX
+
+
+
+
+
+BO_ 897 S1_PosMessage: 8 Vector__XXX
+ SG_ Direction_Str_1 : 24|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Position_Str_1 : 32|32@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 898 S2_PosMessage: 8 Vector__XXX
+ SG_ Direction_Str_2 : 24|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Position_Str_2 : 32|32@1- (1,0) [0|0] "" Vector__XXX
+
+
+
+BO_ 2147483927 Test_Drive: 8 Vector__XXX
+ SG_ v_speed_dsr : 0|16@1- (1,0) [0|0] "" Vector__XXX
+ SG_ steer_dsr : 16|16@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147483905 Control_Mode: 8 Vector__XXX
+ SG_ Control_Enable : 0|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ E_Brake : 8|8@1+ (1,0) [0|0] "" Vector__XXX
+
+
+
+BO_ 2315256320 GPS_Time: 8 Vector__XXX
+ SG_ GPS_Time : 0|32@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 2315256321 GPS_Lati: 8 Vector__XXX
+ SG_ Lati_h : 0|32@1- (1,0) [0|0] "" Vector__XXX
+ SG_ Lati_l : 32|32@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 2315256322 GPS_Long: 8 Vector__XXX
+ SG_ Long_h : 0|32@1- (1,0) [0|0] "" Vector__XXX
+ SG_ Long_l : 32|32@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 2315256323 GPS_Vel: 8 Vector__XXX
+ SG_ GPS_VelN : 0|32@1- (1,0) [0|0] "" Vector__XXX
+ SG_ GPS_VelE : 32|32@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 2315256324 GPS_Pos: 8 Vector__XXX
+ SG_ GPS_PosN : 0|32@1- (1,0) [0|0] "" Vector__XXX
+ SG_ GPS_PosE : 32|32@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147484165 Vcal: 8 Vector__XXX
+ SG_ vx : 0|16@1- (1,0) [0|0] "" Vector__XXX
+ SG_ vy : 16|16@1- (1,0) [0|0] "" Vector__XXX
+ SG_ ax : 32|16@1- (1,0) [0|0] "" Vector__XXX
+ SG_ Ay : 48|16@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147484166 Angles: 8 Vector__XXX
+ SG_ Heading : 0|16@1- (1,0) [0|0] "" Vector__XXX
+ SG_ Yaw : 16|16@1- (1,0) [0|0] "" Vector__XXX
+ SG_ Sideslip : 32|16@1- (1,0) [0|0] "" Vector__XXX
+ SG_ r_out : 48|16@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 2147484167 Errors: 8 Vector__XXX
+ SG_ ey : 0|16@1- (1,0) [0|0] "" Vector__XXX
+ SG_ eh : 16|16@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 2315256328 IMUsingals: 8 Vector__XXX
+ SG_ r_in : 0|16@1- (1,0) [0|0] "" Vector__XXX
+
+BO_ 2315256329 Flocking_U: 8 Vector__XXX
+ SG_ ux : 0|32@1- (1,0) [0|0] "" Vector__XXX
+ SG_ uy : 32|32@1- (1,0) [0|0] "" Vector__XXX
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
