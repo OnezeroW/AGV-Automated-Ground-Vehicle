@@ -46,7 +46,6 @@ from utils import *
 # Initialize CAN interface
 os.system('sudo /sbin/ip link set can0 up type can bitrate 500000')
 
-
 # global variables
 
 CONFIG_FILE_NAME = './conf/agvpi_flocking.conf'
@@ -551,29 +550,29 @@ class AGVCANTxAgent(object):
     
     def deliver_can_command_msg(self, command):
         
-        # drive by wire
+        # # drive by wire
     
-        test_drive_msg_struct = self.can_dbc.get_message_by_name('Test_Drive')
-        test_drive_msg_body = test_drive_msg_struct.encode( \
-            {'v_speed_dsr': command[0], \
-             'steer_dsr': command[1]})
+        # test_drive_msg_struct = self.can_dbc.get_message_by_name('Test_Drive')
+        # test_drive_msg_body = test_drive_msg_struct.encode( \
+        #     {'v_speed_dsr': command[0], \
+        #      'steer_dsr': command[1]})
         
-        test_drive_msg = can.Message(arbitration_id = test_drive_msg_struct.frame_id, 
-                                          data=test_drive_msg_body)
+        # test_drive_msg = can.Message(arbitration_id = test_drive_msg_struct.frame_id, 
+        #                                   data=test_drive_msg_body)
        
-        self.can_bus.send(test_drive_msg)
+        # self.can_bus.send(test_drive_msg)
 
-        # control mode
+        # # control mode
 
-        ctrl_mode_msg_struct = self.can_dbc.get_message_by_name('Control_Mode')
-        ctrl_mode_msg_body = ctrl_mode_msg_struct.encode( \
-            {'Control_Enable': command[2], \
-             'E_Brake': command[3]})
+        # ctrl_mode_msg_struct = self.can_dbc.get_message_by_name('Control_Mode')
+        # ctrl_mode_msg_body = ctrl_mode_msg_struct.encode( \
+        #     {'Control_Enable': command[2], \
+        #      'E_Brake': command[3]})
         
-        ctrl_mode_msg = can.Message(arbitration_id = ctrl_mode_msg_struct.frame_id, 
-                                          data=ctrl_mode_msg_body)
+        # ctrl_mode_msg = can.Message(arbitration_id = ctrl_mode_msg_struct.frame_id, 
+        #                                   data=ctrl_mode_msg_body)
        
-        self.can_bus.send(ctrl_mode_msg)
+        # self.can_bus.send(ctrl_mode_msg)
         
         
         # local vehicle (GPS / IMU)
@@ -589,7 +588,7 @@ class AGVCANTxAgent(object):
         pn = int(command[9])
         pe = int(command[10])
 
-        imu_yaw_rate = int(command[11] * 1000)
+        # imu_yaw_rate = int(command[11] * 1000)
 
         
         lat_h = int(latitude * 1e6)
@@ -656,103 +655,103 @@ class AGVCANTxAgent(object):
         self.can_bus.send(gps_pos_msg)
 
 
-        # IMU yaw rate
+        # # IMU yaw rate
 
-        r_in_msg_struct = self.can_dbc.get_message_by_name('IMUsingals')
-        r_in_msg_body = r_in_msg_struct.encode( \
-            {'r_in': imu_yaw_rate})
+        # r_in_msg_struct = self.can_dbc.get_message_by_name('IMUsingals')
+        # r_in_msg_body = r_in_msg_struct.encode( \
+        #     {'r_in': imu_yaw_rate})
         
-        r_in_msg = can.Message(arbitration_id = r_in_msg_struct.frame_id, 
-                                          data=r_in_msg_body)
-        self.can_bus.send(r_in_msg)
+        # r_in_msg = can.Message(arbitration_id = r_in_msg_struct.frame_id, 
+        #                                   data=r_in_msg_body)
+        # self.can_bus.send(r_in_msg)
 
         
         
-        # flocking, first vehicle
+        # # flocking, first vehicle
         
-        gps_time_ov1 = command[20]
+        # gps_time_ov1 = command[20]
         
-        gps_vn_ov1 = command[25]
-        gps_ve_ov1 = command[26]
+        # gps_vn_ov1 = command[25]
+        # gps_ve_ov1 = command[26]
 
-        gps_pn_ov1 = command[23]
-        gps_pe_ov1 = command[24]
+        # gps_pn_ov1 = command[23]
+        # gps_pe_ov1 = command[24]
         
-        gps_time_ov1_msg_struct = self.can_dbc.get_message_by_name('GPS_Time_OV1')
-        gps_time_ov1_msg_body = gps_time_ov1_msg_struct.encode( \
-            {'GPS_Time_OV1': gps_time_ov1})
+        # gps_time_ov1_msg_struct = self.can_dbc.get_message_by_name('GPS_Time_OV1')
+        # gps_time_ov1_msg_body = gps_time_ov1_msg_struct.encode( \
+        #     {'GPS_Time_OV1': gps_time_ov1})
         
-        gps_time_ov1_msg = can.Message(arbitration_id = gps_time_ov1_msg_struct.frame_id, 
-                                          data=gps_time_ov1_msg_body)
-        self.can_bus.send(gps_time_ov1_msg)
-        
-        
-        # GPS vn / ve
-        
-        gps_vel_ov1_msg_struct = self.can_dbc.get_message_by_name('GPS_Vel_OV1')
-        gps_vel_ov1_msg_body = gps_vel_ov1_msg_struct.encode( \
-            {'GPS_VelN_OV1': gps_vn_ov1,\
-             'GPS_VelE_OV1': gps_ve_ov1})
-        
-        gps_vel_ov1_msg = can.Message(arbitration_id = gps_vel_ov1_msg_struct.frame_id, 
-                                          data=gps_vel_ov1_msg_body)
-        self.can_bus.send(gps_vel_ov1_msg)
-
-
-        # GPS pn / pe
-
-        gps_pos_ov1_msg_struct = self.can_dbc.get_message_by_name('GPS_Pos_OV1')
-        gps_pos_ov1_msg_body = gps_pos_ov1_msg_struct.encode( \
-            {'GPS_PosN_OV1': gps_pn_ov1,\
-             'GPS_PosE_OV1': gps_pe_ov1})
-        
-        gps_pos_ov1_msg = can.Message(arbitration_id = gps_pos_ov1_msg_struct.frame_id, 
-                                          data=gps_pos_ov1_msg_body)
-        self.can_bus.send(gps_pos_ov1_msg)
+        # gps_time_ov1_msg = can.Message(arbitration_id = gps_time_ov1_msg_struct.frame_id, 
+        #                                   data=gps_time_ov1_msg_body)
+        # self.can_bus.send(gps_time_ov1_msg)
         
         
+        # # GPS vn / ve
         
-        # flocking, first vehicle
+        # gps_vel_ov1_msg_struct = self.can_dbc.get_message_by_name('GPS_Vel_OV1')
+        # gps_vel_ov1_msg_body = gps_vel_ov1_msg_struct.encode( \
+        #     {'GPS_VelN_OV1': gps_vn_ov1,\
+        #      'GPS_VelE_OV1': gps_ve_ov1})
         
-        gps_time_ov2 = command[30]
-        
-        gps_vn_ov2 = command[35]
-        gps_ve_ov2 = command[36]
-
-        gps_pn_ov2 = command[33]
-        gps_pe_ov2 = command[34]
-        
-        gps_time_ov2_msg_struct = self.can_dbc.get_message_by_name('GPS_Time_OV2')
-        gps_time_ov2_msg_body = gps_time_ov2_msg_struct.encode( \
-            {'GPS_Time_OV2': gps_time_ov2})
-        
-        gps_time_ov2_msg = can.Message(arbitration_id = gps_time_ov2_msg_struct.frame_id, 
-                                          data=gps_time_ov2_msg_body)
-        self.can_bus.send(gps_time_ov2_msg)
-        
-        
-        # GPS vn / ve
-        
-        gps_vel_ov2_msg_struct = self.can_dbc.get_message_by_name('GPS_Vel_OV2')
-        gps_vel_ov2_msg_body = gps_vel_ov2_msg_struct.encode( \
-            {'GPS_VelN_OV2': gps_vn_ov2,\
-             'GPS_VelE_OV2': gps_ve_ov2})
-        
-        gps_vel_ov2_msg = can.Message(arbitration_id = gps_vel_ov2_msg_struct.frame_id, 
-                                          data=gps_vel_ov2_msg_body)
-        self.can_bus.send(gps_vel_ov2_msg)
+        # gps_vel_ov1_msg = can.Message(arbitration_id = gps_vel_ov1_msg_struct.frame_id, 
+        #                                   data=gps_vel_ov1_msg_body)
+        # self.can_bus.send(gps_vel_ov1_msg)
 
 
-        # GPS pn / pe
+        # # GPS pn / pe
 
-        gps_pos_ov2_msg_struct = self.can_dbc.get_message_by_name('GPS_Pos_OV2')
-        gps_pos_ov2_msg_body = gps_pos_ov2_msg_struct.encode( \
-            {'GPS_PosN_OV2': gps_pn_ov2,\
-             'GPS_PosE_OV2': gps_pe_ov2})
+        # gps_pos_ov1_msg_struct = self.can_dbc.get_message_by_name('GPS_Pos_OV1')
+        # gps_pos_ov1_msg_body = gps_pos_ov1_msg_struct.encode( \
+        #     {'GPS_PosN_OV1': gps_pn_ov1,\
+        #      'GPS_PosE_OV1': gps_pe_ov1})
         
-        gps_pos_ov2_msg = can.Message(arbitration_id = gps_pos_ov2_msg_struct.frame_id, 
-                                          data=gps_pos_ov2_msg_body)
-        self.can_bus.send(gps_pos_ov2_msg)
+        # gps_pos_ov1_msg = can.Message(arbitration_id = gps_pos_ov1_msg_struct.frame_id, 
+        #                                   data=gps_pos_ov1_msg_body)
+        # self.can_bus.send(gps_pos_ov1_msg)
+        
+        
+        
+        # # flocking, first vehicle
+        
+        # gps_time_ov2 = command[30]
+        
+        # gps_vn_ov2 = command[35]
+        # gps_ve_ov2 = command[36]
+
+        # gps_pn_ov2 = command[33]
+        # gps_pe_ov2 = command[34]
+        
+        # gps_time_ov2_msg_struct = self.can_dbc.get_message_by_name('GPS_Time_OV2')
+        # gps_time_ov2_msg_body = gps_time_ov2_msg_struct.encode( \
+        #     {'GPS_Time_OV2': gps_time_ov2})
+        
+        # gps_time_ov2_msg = can.Message(arbitration_id = gps_time_ov2_msg_struct.frame_id, 
+        #                                   data=gps_time_ov2_msg_body)
+        # self.can_bus.send(gps_time_ov2_msg)
+        
+        
+        # # GPS vn / ve
+        
+        # gps_vel_ov2_msg_struct = self.can_dbc.get_message_by_name('GPS_Vel_OV2')
+        # gps_vel_ov2_msg_body = gps_vel_ov2_msg_struct.encode( \
+        #     {'GPS_VelN_OV2': gps_vn_ov2,\
+        #      'GPS_VelE_OV2': gps_ve_ov2})
+        
+        # gps_vel_ov2_msg = can.Message(arbitration_id = gps_vel_ov2_msg_struct.frame_id, 
+        #                                   data=gps_vel_ov2_msg_body)
+        # self.can_bus.send(gps_vel_ov2_msg)
+
+
+        # # GPS pn / pe
+
+        # gps_pos_ov2_msg_struct = self.can_dbc.get_message_by_name('GPS_Pos_OV2')
+        # gps_pos_ov2_msg_body = gps_pos_ov2_msg_struct.encode( \
+        #     {'GPS_PosN_OV2': gps_pn_ov2,\
+        #      'GPS_PosE_OV2': gps_pe_ov2})
+        
+        # gps_pos_ov2_msg = can.Message(arbitration_id = gps_pos_ov2_msg_struct.frame_id, 
+        #                                   data=gps_pos_ov2_msg_body)
+        # self.can_bus.send(gps_pos_ov2_msg)
         
     
     def run(self):
@@ -788,9 +787,6 @@ class AGVCANTxAgent(object):
                 print('q_can_send_ctrl triggered')
                 self.stop = True
     
-
-
-
         print('AGV CAN Tx Agent stopped.')
 
 
@@ -1042,7 +1038,6 @@ class AGVPi(object):
                 
                 
                 
-                
                 log_file_raw_record.write('%f, ' % ts)
                 log_file_raw_record.write(header_str)
                 log_file_raw_record.write(payload.hex())
@@ -1054,97 +1049,97 @@ class AGVPi(object):
                 continue
 
 
-    def arduino_sensor_recv(self, sio, msg_len):
+    # def arduino_sensor_recv(self, sio, msg_len):
     
-        payload = sio.read(msg_len)
+    #     payload = sio.read(msg_len)
     
-        #print(payload)
+    #     #print(payload)
     
-        ts = int.from_bytes(payload[0:4], byteorder='little')
+    #     ts = int.from_bytes(payload[0:4], byteorder='little')
     
-        sample = np.frombuffer(payload[4:msg_len], dtype=np.float32)
+    #     sample = np.frombuffer(payload[4:msg_len], dtype=np.float32)
     
-    #     print(ts)
-    #     print("\t", end="")
-    #     for j in range(12):
-    # 
-    #         print("%7.4f, " % sample[j], end="")
-    # 
-    #     print()
+    # #     print(ts)
+    # #     print("\t", end="")
+    # #     for j in range(12):
+    # # 
+    # #         print("%7.4f, " % sample[j], end="")
+    # # 
+    # #     print()
     
-        return (ts, sample)
+    #     return (ts, sample)
 
-    def arduino_sensor_thread(self):
+    # def arduino_sensor_thread(self):
         
-        print('arduino_sensor_thread started.')
+    #     print('arduino_sensor_thread started.')
         
-        imu_log_file = open('./log/imu_samples.csv', 'w')
+    #     imu_log_file = open('./log/imu_samples.csv', 'w')
         
-        sio = serial.Serial('/dev/ttyACM0', 115200)
+    #     sio = serial.Serial('/dev/ttyACM0', 115200)
         
-        state = 0
-        msg_len = 0
-        opcode = 0
+    #     state = 0
+    #     msg_len = 0
+    #     opcode = 0
         
-        while not self.stop:
+    #     while not self.stop:
         
-            s = sio.read(1)
+    #         s = sio.read(1)
         
-            # cast the received byte to an integer    
-            c = s[0]
+    #         # cast the received byte to an integer    
+    #         c = s[0]
         
-            if state == 0:
+    #         if state == 0:
         
-                if c == 68: # ASCII 68 is 'D'
-                    state = 1
-                else:
-                    state = 0
+    #             if c == 68: # ASCII 68 is 'D'
+    #                 state = 1
+    #             else:
+    #                 state = 0
         
-            elif state == 1:
+    #         elif state == 1:
         
-                if c == 76: # ASCII 76 is 'L'
-                    state = 2
-                else:
-                    state = 0
+    #             if c == 76: # ASCII 76 is 'L'
+    #                 state = 2
+    #             else:
+    #                 state = 0
         
-            elif state == 2:
+    #         elif state == 2:
         
-                state = 3
+    #             state = 3
         
-                msg_len = int(c)
+    #             msg_len = int(c)
         
         
-            elif state == 3:
+    #         elif state == 3:
         
-                opcode = int(c)
+    #             opcode = int(c)
         
-                if opcode == 0x85:
+    #             if opcode == 0x85:
                     
-                    imu_ts, sample = self.arduino_sensor_recv(sio, msg_len)
+    #                 imu_ts, sample = self.arduino_sensor_recv(sio, msg_len)
                     
-                    ts = time.time()
-                    self.imu_ts = imu_ts
-                    self.imu_sample = sample
+    #                 ts = time.time()
+    #                 self.imu_ts = imu_ts
+    #                 self.imu_sample = sample
                     
-                    #print(self.imu_ts, self.imu_sample[0:5])
+    #                 #print(self.imu_ts, self.imu_sample[0:5])
                     
-                    imu_csv = ','.join(['%f' % value for value in sample])
+    #                 imu_csv = ','.join(['%f' % value for value in sample])
 
-                    imu_log_file.write('%f, %f, ' % (ts, imu_ts))
-                    imu_log_file.write(imu_csv)
-                    imu_log_file.write('\n')
-                    imu_log_file.flush()
+    #                 imu_log_file.write('%f, %f, ' % (ts, imu_ts))
+    #                 imu_log_file.write(imu_csv)
+    #                 imu_log_file.write('\n')
+    #                 imu_log_file.flush()
         
-                else:
+    #             else:
                     
-                    print("Unknown opcode, just ignore.")
+    #                 print("Unknown opcode, just ignore.")
         
         
-                state = 0
+    #             state = 0
         
-            else:
+    #         else:
         
-                print("Unknown state! Program is corrupted!")
+    #             print("Unknown state! Program is corrupted!")
 
 
 
@@ -1258,306 +1253,306 @@ class AGVPi(object):
         print('chassis_can_send_thread stopped.')
         
     
-    def v2v_send_thread(self):
+    # def v2v_send_thread(self):
         
-        print('v2v_send_thread started')
+    #     print('v2v_send_thread started')
     
-        v2v_send_log = open('./log/v2v_send', 'w')
-    
-        
-        #dst_ips = ["192.168.0.100", "192.168.0.11", "192.168.0.12", "192.168.0.13"]
-        dst_ips = ["192.168.137.1", "192.168.137.2", "192.168.137.3"]
-        dst_port = 15000
-        
-        #src_ip = "192.168.0.1%d" % self.vid
-        src_ip = "192.168.137.%d" % self.vid
-        src_port = 15500 + self.vid
-        
-        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    
-        sock.bind((src_ip, src_port))
-    
-        #msg_array = np.random.rand(17)
+    #     v2v_send_log = open('./log/v2v_send', 'w')
     
         
-        msg_array = np.zeros(V2V_N, dtype=np.float64)
+    #     #dst_ips = ["192.168.0.100", "192.168.0.11", "192.168.0.12", "192.168.0.13"]
+    #     dst_ips = ["192.168.137.1", "192.168.137.2", "192.168.137.3"]
+    #     dst_port = 15000
+        
+    #     #src_ip = "192.168.0.1%d" % self.vid
+    #     src_ip = "192.168.137.%d" % self.vid
+    #     src_port = 15500 + self.vid
+        
+    #     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    
+    #     sock.bind((src_ip, src_port))
+    
+    #     #msg_array = np.random.rand(17)
+    
+        
+    #     msg_array = np.zeros(V2V_N, dtype=np.float64)
     
     
-        while not self.stop:
+    #     while not self.stop:
             
-            msg_array[0] = self.vid
-            msg_array[1] = time.time()
-            msg_array[2] = self.vehicle_speed_dsr
-            msg_array[3] = self.vehicle_steer_dsr
+    #         msg_array[0] = self.vid
+    #         msg_array[1] = time.time()
+    #         msg_array[2] = self.vehicle_speed_dsr
+    #         msg_array[3] = self.vehicle_steer_dsr
             
-            msg_array[4:20] = self.imu_sample
-            msg_array[20] = self.pos_llh[0]
-            msg_array[21] = self.pos_llh[1]
-            msg_array[22] = self.pos_llh[2]
+    #         msg_array[4:20] = self.imu_sample
+    #         msg_array[20] = self.pos_llh[0]
+    #         msg_array[21] = self.pos_llh[1]
+    #         msg_array[22] = self.pos_llh[2]
             
-            msg_array[23] = self.gps_baseline_pos_ned[1]
-            msg_array[24] = self.gps_baseline_pos_ned[2]
+    #         msg_array[23] = self.gps_baseline_pos_ned[1]
+    #         msg_array[24] = self.gps_baseline_pos_ned[2]
 
-            #msg_array[23] = self.gps_fixed_origin_pos_ned[0]
-            #msg_array[24] = self.gps_fixed_origin_pos_ned[1]
+    #         #msg_array[23] = self.gps_fixed_origin_pos_ned[0]
+    #         #msg_array[24] = self.gps_fixed_origin_pos_ned[1]
 
-            msg_array[25] = self.gps_baseline_vel_ned[1]
-            msg_array[26] = self.gps_baseline_vel_ned[2]
+    #         msg_array[25] = self.gps_baseline_vel_ned[1]
+    #         msg_array[26] = self.gps_baseline_vel_ned[2]
 
               
                 
-            for dst_ip in dst_ips:
+    #         for dst_ip in dst_ips:
 
     
-                sock.sendto(msg_array.tobytes(), (dst_ip, dst_port))
+    #             sock.sendto(msg_array.tobytes(), (dst_ip, dst_port))
         
         
-            v2v_csv = ','.join(['%f' % value for value in msg_array])
+    #         v2v_csv = ','.join(['%f' % value for value in msg_array])
             
-            v2v_send_log.write(v2v_csv)
-            v2v_send_log.write('\n')
+    #         v2v_send_log.write(v2v_csv)
+    #         v2v_send_log.write('\n')
             
         
         
-            time.sleep(0.05);
+    #         time.sleep(0.05);
         
-        pass
+    #     pass
     
     
     
     
-    def v2v_recv_thread(self):
+    # def v2v_recv_thread(self):
         
-        print('v2v_recv_thread started')
+    #     print('v2v_recv_thread started')
         
-        v2v_recv_log = open('./log/v2v_recv', 'w')
+    #     v2v_recv_log = open('./log/v2v_recv', 'w')
         
-        port = 15000
+    #     port = 15000
         
-        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    #     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
        
-        sock.bind(('', port))
+    #     sock.bind(('', port))
         
-        sock.settimeout(1)
+    #     sock.settimeout(1)
         
-        while not self.stop:
+    #     while not self.stop:
             
-            try:
+    #         try:
             
-                data, addr = sock.recvfrom(1024)
+    #             data, addr = sock.recvfrom(1024)
             
-            except:
+    #         except:
                 
-                continue
+    #             continue
             
-            v2v_record = np.frombuffer(data, dtype=np.float64)
+    #         v2v_record = np.frombuffer(data, dtype=np.float64)
             
-            sender_id = int(v2v_record[0])
+    #         sender_id = int(v2v_record[0])
             
-            if sender_id >= 0 and sender_id < NR_VEHICLES:
+    #         if sender_id >= 0 and sender_id < NR_VEHICLES:
                 
-                self.v2v_records[sender_id] = v2v_record
+    #             self.v2v_records[sender_id] = v2v_record
             
             
-            v2v_csv = ','.join(['%f' % value for value in v2v_record])
+    #         v2v_csv = ','.join(['%f' % value for value in v2v_record])
             
-            v2v_recv_log.write(v2v_csv)
-            v2v_recv_log.write('\n')
+    #         v2v_recv_log.write(v2v_csv)
+    #         v2v_recv_log.write('\n')
     
 
-    def v2i_send_thread(self):
+    # def v2i_send_thread(self):
         
-        print('v2i_send_thread started')
+    #     print('v2i_send_thread started')
     
-        v2i_send_log = open('./log/v2i_send', 'w')
+    #     v2i_send_log = open('./log/v2i_send', 'w')
         
-        dst_ip = "192.168.1.4"
-        dst_port = 16000
+    #     dst_ip = "192.168.1.4"
+    #     dst_port = 16000
         
         
-        src_ip = "192.168.1.%d" % (self.vid + 10)
-        src_port = 16500 + self.vid
+    #     src_ip = "192.168.1.%d" % (self.vid + 10)
+    #     src_port = 16500 + self.vid
         
-        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    #     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     
-        sock.bind((src_ip, src_port))
+    #     sock.bind((src_ip, src_port))
     
-        #msg_array = np.random.rand(17)
+    #     #msg_array = np.random.rand(17)
     
         
         
-        v2i_vstate_msg = self.v2i_vstate_msg
+    #     v2i_vstate_msg = self.v2i_vstate_msg
     
-        while not self.stop:
+    #     while not self.stop:
             
-            time.sleep(0.1);
+    #         time.sleep(0.1);
             
-            v2i_vstate_msg[0] = self.vid
-            v2i_vstate_msg[1] = time.time()
-            v2i_vstate_msg[2] = self.pos_llh[0]
+    #         v2i_vstate_msg[0] = self.vid
+    #         v2i_vstate_msg[1] = time.time()
+    #         v2i_vstate_msg[2] = self.pos_llh[0]
             
-            # chassis data
+    #         # chassis data
             
-            chassis_columns = [0, 1, 2, 3, 4, 5, 9, 15, 21, 27, 31, 33]
+    #         chassis_columns = [0, 1, 2, 3, 4, 5, 9, 15, 21, 27, 31, 33]
             
-            for i in range(12):
+    #         for i in range(12):
             
-                col = chassis_columns[i]
+    #             col = chassis_columns[i]
                 
-                v2i_vstate_msg[i + 3] = self.vehicle_state[col]
+    #             v2i_vstate_msg[i + 3] = self.vehicle_state[col]
             
-            v2i_vstate_msg[15:31] = self.imu_sample
-            v2i_vstate_msg[31:36] = self.gps_baseline_pos_ned[1:6]
-            v2i_vstate_msg[36:41] = self.gps_baseline_vel_ned[1:6]
-            v2i_vstate_msg[41:46] = self.pos_llh[1:6]
+    #         v2i_vstate_msg[15:31] = self.imu_sample
+    #         v2i_vstate_msg[31:36] = self.gps_baseline_pos_ned[1:6]
+    #         v2i_vstate_msg[36:41] = self.gps_baseline_vel_ned[1:6]
+    #         v2i_vstate_msg[41:46] = self.pos_llh[1:6]
             
             
-            try:
+    #         try:
             
-                sock.sendto(v2i_vstate_msg.tobytes(), (dst_ip, dst_port))
+    #             sock.sendto(v2i_vstate_msg.tobytes(), (dst_ip, dst_port))
 
 
-            except:
+    #         except:
                 
-                continue
+    #             continue
         
-            v2i_csv = ','.join(['%f' % value for value in v2i_vstate_msg])
+    #         v2i_csv = ','.join(['%f' % value for value in v2i_vstate_msg])
             
-            v2i_send_log.write(v2i_csv)
-            v2i_send_log.write('\n')
+    #         v2i_send_log.write(v2i_csv)
+    #         v2i_send_log.write('\n')
             
         
-        pass
+    #     pass
     
     
     
     
-    def v2i_recv_thread(self):
+    # def v2i_recv_thread(self):
         
-        print('v2i_recv_thread started')
+    #     print('v2i_recv_thread started')
         
-        v2i_recv_log = open('./log/v2i_recv', 'w')
+    #     v2i_recv_log = open('./log/v2i_recv', 'w')
         
-        port = 17000
+    #     port = 17000
         
-        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    #     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
        
-        sock.bind(('', port))
+    #     sock.bind(('', port))
         
-        sock.settimeout(1)
+    #     sock.settimeout(1)
 
-        while not self.stop:
+    #     while not self.stop:
             
-            try:
+    #         try:
             
-                data, addr = sock.recvfrom(1024)
+    #             data, addr = sock.recvfrom(1024)
             
-            except:
+    #         except:
                 
-                continue
+    #             continue
             
             
-            v2i_command_msg = np.frombuffer(data, dtype=np.float64)
+    #         v2i_command_msg = np.frombuffer(data, dtype=np.float64)
             
-            v2i_vid = v2i_command_msg[0]
-            
-            
-            self.exp_start = v2i_command_msg[1]
-            self.ctrl_enable = v2i_command_msg[2]
+    #         v2i_vid = v2i_command_msg[0]
             
             
-            v2i_csv = ','.join(['%f' % value for value in v2i_command_msg])
+    #         self.exp_start = v2i_command_msg[1]
+    #         self.ctrl_enable = v2i_command_msg[2]
             
-            v2i_recv_log.write(v2i_csv)
-            v2i_recv_log.write('\n')
+            
+    #         v2i_csv = ','.join(['%f' % value for value in v2i_command_msg])
+            
+    #         v2i_recv_log.write(v2i_csv)
+    #         v2i_recv_log.write('\n')
 
             
 
     
-    def keyboard_thread(self):
+    # def keyboard_thread(self):
         
-        print('keyboard thread started.')
+    #     print('keyboard thread started.')
         
-        while not self.stop:
+    #     while not self.stop:
             
-            key = input('->')
+    #         key = input('->')
             
-            if key == 'exit':
+    #         if key == 'exit':
                 
-                self.stop = True
+    #             self.stop = True
                 
-            time.sleep(0.1)
+    #         time.sleep(0.1)
         
 
 
-    def process_js_event(self, ts, jsev_value, jsev_type, jsev_number):
+    # def process_js_event(self, ts, jsev_value, jsev_type, jsev_number):
         
-        if jsev_type == 0x01:
+    #     if jsev_type == 0x01:
             
-            #print('Button event: ts=%u, number=%u, value=%d' % (ts, jsev_number, jsev_value))
+    #         #print('Button event: ts=%u, number=%u, value=%d' % (ts, jsev_number, jsev_value))
             
-            if jsev_number == 9:
+    #         if jsev_number == 9:
                 
-                self.stop = True
+    #             self.stop = True
             
-            pass
+    #         pass
         
-        elif jsev_type == 0x02:
+    #     elif jsev_type == 0x02:
             
-            #print('Axis event: ts=%u, number=%u, value=%d' % (ts, jsev_number, jsev_value))
+    #         #print('Axis event: ts=%u, number=%u, value=%d' % (ts, jsev_number, jsev_value))
             
-            if jsev_number == 0:
+    #         if jsev_number == 0:
                 
-                self.js_steer_dsr = jsev_value * 150 // 32768
+    #             self.js_steer_dsr = jsev_value * 150 // 32768
             
-            if jsev_number == 1:
+    #         if jsev_number == 1:
                 
-                self.js_speed_dsr = -jsev_value * 150 // 32768
+    #             self.js_speed_dsr = -jsev_value * 150 // 32768
             
-            pass
+    #         pass
         
         
         
-        pass
+    #     pass
     
     
-    def js_thread(self):
+    # def js_thread(self):
         
-        print('js thread started.')
+    #     print('js thread started.')
         
-        fn = '/dev/input/js0'
-        jsdev = open(fn, 'rb')
+    #     fn = '/dev/input/js0'
+    #     jsdev = open(fn, 'rb')
         
-        while not self.stop:
+    #     while not self.stop:
             
-            jsev = jsdev.read(8)
+    #         jsev = jsdev.read(8)
             
-            ts, jsev_value, jsev_type, jsev_number = struct.unpack('IhBB', jsev)
+    #         ts, jsev_value, jsev_type, jsev_number = struct.unpack('IhBB', jsev)
             
-            self.process_js_event(ts, jsev_value, jsev_type, jsev_number)
+    #         self.process_js_event(ts, jsev_value, jsev_type, jsev_number)
             
-            time.sleep(0.1)
+    #         time.sleep(0.1)
     
     
     
-    def drive_by_wire(self):
+    # def drive_by_wire(self):
         
 
-        while not self.stop:
+    #     while not self.stop:
             
-            # CAUTION: vehicle with ID == 1 is always the leader.
+    #         # CAUTION: vehicle with ID == 1 is always the leader.
             
-            if self.mode == 'v2v':
+    #         if self.mode == 'v2v':
             
-                self.vehicle_speed_dsr = self.v2v_records[1][2]
-                self.vehicle_steer_dsr = self.v2v_records[1][3]
+    #             self.vehicle_speed_dsr = self.v2v_records[1][2]
+    #             self.vehicle_steer_dsr = self.v2v_records[1][3]
                 
-            if self.mode == 'js':
+    #         if self.mode == 'js':
                 
-                self.vehicle_speed_dsr = self.js_speed_dsr
-                self.vehicle_steer_dsr = self.js_steer_dsr
+    #             self.vehicle_speed_dsr = self.js_speed_dsr
+    #             self.vehicle_steer_dsr = self.js_steer_dsr
                 
-            time.sleep(0.01);
+    #         time.sleep(0.01);
 
 
 
@@ -1578,26 +1573,23 @@ class AGVPi(object):
         #     threads.append(x_js)
         #     x_js.start()
           
-  
-  
-          
-              
+    
         x_gps = threading.Thread(target=self.gps_thread)
         threads.append(x_gps)
         x_gps.start()
             
     
-        x_as = threading.Thread(target=self.arduino_sensor_thread)
-        threads.append(x_as)
-        x_as.start()
+        # x_as = threading.Thread(target=self.arduino_sensor_thread)
+        # threads.append(x_as)
+        # x_as.start()
     
         x_vcan_recv = threading.Thread(target=self.chassis_can_recv_thread)
         threads.append(x_vcan_recv)
         x_vcan_recv.start()
       
-        # x_vcan_send = threading.Thread(target=self.chassis_can_send_thread)
-        # threads.append(x_vcan_send)
-        # x_vcan_send.start()
+        x_vcan_send = threading.Thread(target=self.chassis_can_send_thread)
+        threads.append(x_vcan_send)
+        x_vcan_send.start()
 
  
         # x_v2v_send = threading.Thread(target=self.v2v_send_thread)
@@ -1608,8 +1600,6 @@ class AGVPi(object):
         # threads.append(x_v2v_recv)
         # x_v2v_recv.start()
 
-        
-        
         while not self.stop:
             
             time.sleep(1)

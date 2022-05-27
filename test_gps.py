@@ -19,12 +19,6 @@ from sbp.navigation import MsgVelNED
 from sbp.orientation import SBP_MSG_BASELINE_HEADING
 
 
-
-
-
-
-
-
 def test_gps():
 
     print("testing GPS started.")
@@ -60,7 +54,7 @@ def test_gps():
                         log_file_pos.write('\n')
                         log_file_pos.flush()
                         
-                        print(msg, metadata)
+                        #print(msg, metadata)
                         break
                         
                     
@@ -76,31 +70,12 @@ def test_gps():
                         log_file_vel.write('\n')
                         log_file_vel.flush()
             
-                        print(msg, metadata)
+                        #print(msg, metadata)
                         break
                         
-            
-        
-    
     pass
-
-
 
 
 if __name__ == '__main__':
-    
-    
     test_gps()
     pass
-
-
-
-
-
-
-
-
-
-
-
-

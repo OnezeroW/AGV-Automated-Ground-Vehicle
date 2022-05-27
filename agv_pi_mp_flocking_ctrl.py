@@ -759,7 +759,6 @@ class AGVPi(object):
         
         pass
 
-
     def log_csv_record(self, fd, ts, tup):
         
         msg_csv = ','.join([str(value) for value in tup])
@@ -768,6 +767,7 @@ class AGVPi(object):
         fd.write(msg_csv)
         fd.write('\n')
         fd.flush()
+    
 
 
     def gps_thread(self):
@@ -926,7 +926,6 @@ class AGVPi(object):
     
         return (ts, sample)
 
-
     def arduino_sensor_thread(self):
         
         print('arduino_sensor_thread started.')
@@ -998,6 +997,8 @@ class AGVPi(object):
             else:
         
                 print("Unknown state! Program is corrupted!")
+
+
 
 
     def chassis_can_recv_thread(self):
@@ -1134,7 +1135,7 @@ class AGVPi(object):
         self.f_alpha = np.zeros((2))
         self.f_beta = np.zeros((2))
         self.f_gamma = np.zeros((2))
-
+        
 
     def flocking_construct_self_vec(self, para):
 
@@ -1145,6 +1146,7 @@ class AGVPi(object):
         self.self_vec[3] = self.gps_baseline_vel_ned[1] # pos_y
         
         self.self_vec = self.self_vec / 1000
+
 
 
     def flocking_init_alpha_vec(self, para):
@@ -1162,8 +1164,8 @@ class AGVPi(object):
         self.agent_vec[1, 1] = 0.0
         self.agent_vec[2, 1] = 0.0
         self.agent_vec[3, 1] = 0.0
-
-
+            
+    
     def flocking_construct_agent_vec(self, para, last_ts, current_ts):
         '''Constructing states of agents which are close enough.
         
@@ -1218,8 +1220,9 @@ class AGVPi(object):
 
         
         self.agent_vec = agent_vec
-
-
+    
+    
+    
     def flocking_construct_obstacle_vec(self, para):
         '''Constructing states of obstacles which are close enough.
         
@@ -1265,8 +1268,8 @@ class AGVPi(object):
         
         
         self.obstacle_vec = obstacle_vec
-
-
+    
+    
     def flocking_init_leader_vec(self, para):
         
         #self.leader_vec = np.zeros((4))
@@ -1274,8 +1277,8 @@ class AGVPi(object):
         self.leader_vec[1] = para.leader_y
         self.leader_vec[2] = para.leader_vx
         self.leader_vec[3] = para.leader_vy
-
-
+        
+    
     def flocking_construct_leader_vec(self, para, 
         last_ts, current_ts):
 
@@ -1322,8 +1325,9 @@ class AGVPi(object):
 
 
         self.leader_vec = leader_vec
-
-
+    
+    
+    
     def flocking_ctrl_calculate_alpha(self, para, self_vec, agent_vec):
 
         sigma = para.sigma
@@ -1366,8 +1370,7 @@ class AGVPi(object):
         f_alpha = para.c1_alpha * f_alpha_1 + para.c2_alpha * f_alpha_2
     
         return f_alpha
-
-
+    
     def flocking_ctrl_calculate_beta(self, para, self_vec, obstacle_vec):
     
         sigma = para.sigma
@@ -1407,8 +1410,7 @@ class AGVPi(object):
         f_beta = para.c1_beta * f_beta_1 + para.c2_beta * f_beta_2
     
         return f_beta
-
-
+    
     def flocking_ctrl_one_iteration(self):
         ''' Run the flocking controller for one iteration.
         
@@ -1480,7 +1482,6 @@ class AGVPi(object):
         
         
         self.flocking_ctrl_u_vec = u_vec
-
 
     def flocking_ctrl_thread(self):
     
@@ -1582,8 +1583,9 @@ class AGVPi(object):
             time.sleep(0.05)
     
         pass
-
-
+    
+    
+    
     def v2v_send_thread(self):
         
         print('v2v_send_thread started')
@@ -1648,8 +1650,10 @@ class AGVPi(object):
             time.sleep(0.05);
         
         pass
-
-
+    
+    
+    
+    
     def v2v_recv_thread(self):
         
         print('v2v_recv_thread started')
@@ -1687,7 +1691,7 @@ class AGVPi(object):
             
             v2v_recv_log.write(v2v_csv)
             v2v_recv_log.write('\n')
-
+    
 
     def v2i_send_thread(self):
         
@@ -1752,8 +1756,10 @@ class AGVPi(object):
             
         
         pass
-
-
+    
+    
+    
+    
     def v2i_recv_thread(self):
         
         print('v2i_recv_thread started')
@@ -1795,7 +1801,9 @@ class AGVPi(object):
             v2i_recv_log.write(v2i_csv)
             v2i_recv_log.write('\n')
 
+            
 
+    
     def keyboard_thread(self):
         
         time.sleep(2)
@@ -1823,6 +1831,7 @@ class AGVPi(object):
                 print("DISABLE!!!")
                 
             time.sleep(0.1)
+        
 
 
     def process_js_event(self, ts, jsev_value, jsev_type, jsev_number):
@@ -1854,8 +1863,8 @@ class AGVPi(object):
         
         
         pass
-
-
+    
+    
     def js_thread(self):
         
         print('js thread started.')
@@ -1872,8 +1881,9 @@ class AGVPi(object):
             self.process_js_event(ts, jsev_value, jsev_type, jsev_number)
             
             time.sleep(0.1)
-
-
+    
+    
+    
     def drive_by_wire(self):
         
 
@@ -1892,6 +1902,9 @@ class AGVPi(object):
                 self.vehicle_steer_dsr = self.js_y * 150
                 
             time.sleep(0.01);
+
+
+
 
 
     def main_loop(self):

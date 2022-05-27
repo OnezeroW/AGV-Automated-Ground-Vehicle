@@ -41,6 +41,7 @@ def test_imu():
 
     
     sio = serial.Serial('/dev/ttyACM0', 115200)
+    #sio = serial.Serial('/dev/ttyUSB0', 115200)
     
     time.sleep(1)
     
@@ -48,12 +49,17 @@ def test_imu():
     msg_len = 0
     opcode = 0
     
+    print('Enter while loop! \n')
+    counter = 0
     while True:
-    
+        #print(f'{counter} before sio.read() \n')
         s = sio.read(1)
+        print(f'{s}, {counter} after sio.read() \n')
     
         # cast the received byte to an integer    
         c = s[0]
+        if state != 0:
+            print(f'c = {c}, state = {state}, counter = {counter} \n')
     
         if state == 0:
     
@@ -67,6 +73,7 @@ def test_imu():
             if c == 76: # ASCII 76 is 'L'
                 state = 2
             else:
+
                 state = 0
     
         elif state == 2:
@@ -81,7 +88,7 @@ def test_imu():
             opcode = int(c)
     
             if opcode == 0x85:
-                
+                print('recv_payload() \n')
                 ts, sample = recv_payload(sio, msg_len)
                 
                 sample_csv = ','.join(['%.5f' % value for value in sample])
@@ -103,7 +110,7 @@ def test_imu():
     
             print("Unknown state! Program is corrupted!")
         
-        
+        counter += 1
         
     pass
 
@@ -115,8 +122,8 @@ def test_imu():
 
 if __name__ == '__main__':
     
-    
     test_imu()
+    
 
 
 
