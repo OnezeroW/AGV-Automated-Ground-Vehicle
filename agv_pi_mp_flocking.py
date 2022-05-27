@@ -867,8 +867,7 @@ class AGVPi(object):
         
             # cast the received byte to an integer    
             c = s[0] & 0x000000FF
-    
-    
+
             if c == 0x55:
                 
                 ts = time.time()
@@ -884,7 +883,8 @@ class AGVPi(object):
 
                 # added on 0527/2022
                 if msg_type == 0x0900: # MSG_IMU_RAW
-                    gps_imu_raw = struct.unpack('<IBhhhhhhH', payload)
+                    gps_imu_raw = struct.unpack('<IBhhhhhh', payload)
+                    print('gps_imu_raw:\n', gps_imu_raw)
                     self.gps_imu_raw = gps_imu_raw
                     self.log_csv_record(log_gps_imu_raw, ts, gps_imu_raw)
     
@@ -909,6 +909,7 @@ class AGVPi(object):
                     pos_ecef_cov = struct.unpack('<IdddffffffBBH', payload)
                 
                 elif msg_type == 0x020A: # MSG_POS_LLH
+                    # print('pos_llh collected!')
                     
                     pos_llh = struct.unpack('<IdddHHBBH', payload)
                     self.pos_llh = pos_llh
@@ -977,9 +978,6 @@ class AGVPi(object):
                     # not interested in other messages
                     pass
                 
-                
-                
-                
                 log_file_raw_record.write('%f, ' % ts)
                 log_file_raw_record.write(header_str)
                 log_file_raw_record.write(payload.hex())
@@ -987,7 +985,6 @@ class AGVPi(object):
                 log_file_raw_record.flush()
             
             else:
-                
                 continue
 
 
