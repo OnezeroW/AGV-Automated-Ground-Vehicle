@@ -321,153 +321,81 @@ class AGVCANRxAgent(object):
             self.ctrl_state[38] = gps_pos_ned_ov2[1] # position component in east
        
     
-    
+    # modified on 0527/2022
     def process_can_report_msg_using_dbc(self, msg):
-        
         
         try:
             dmsg = self.can_dbc.decode_message(msg.arbitration_id, msg.data)
         except:
             pass
 
-
         #print('%X' % msg.arbitration_id)
         
         id = int(msg.arbitration_id)
 
-        if msg.arbitration_id == 0x0C000101:
-            
-            self.vehicle_state[0] = dmsg['Str_Front']
-            self.vehicle_state[1] = dmsg['Str_Rear']
-            self.vehicle_state[2] = dmsg['Tor_FL']
+        # vehicle state
 
-        if msg.arbitration_id == 0x0C000102:
-            
-            self.vehicle_state[3] = dmsg['Tor_FR']
-            self.vehicle_state[4] = dmsg['Tor_RL']
-            self.vehicle_state[5] = dmsg['Tor_RR']
+        if msg.arbitration_id == 0x00000160:    # Steering_Feedback
+            self.vehicle_state[0] = dmsg['Front_Str_Angle']
+            self.vehicle_state[1] = dmsg['Front_Str_Spd']
+            self.vehicle_state[2] = dmsg['Rear_Str_Angle']
+            self.vehicle_state[3] = dmsg['Rear_Str_Spd']
 
-        if msg.arbitration_id == 0x0B520101:
-            
-            self.vehicle_state[6] = dmsg['Pre_Stu_1']
-            self.vehicle_state[7] = dmsg['Torque_Fbk_1']
-            self.vehicle_state[8] = 0
+        if msg.arbitration_id == 0x00000217:    # FL_Wheel_Spd_Feedback
+            self.vehicle_state[4] = dmsg['FL_Wheel_Spd']
 
-        if msg.arbitration_id == 0x0B520201:
-            
-            self.vehicle_state[9] = dmsg['Motor_Spd_1']
-            self.vehicle_state[10] = 0
-            self.vehicle_state[11] = dmsg['Direction_1']
-    
-        if msg.arbitration_id == 0x0B520102:
-            
-            self.vehicle_state[12] = dmsg['Pre_Stu_2']
-            self.vehicle_state[13] = dmsg['Torque_Fbk_2']
-            self.vehicle_state[14] = 0
+        if msg.arbitration_id == 0x00000227:    # FR_Wheel_Spd_Feedback
+            self.vehicle_state[5] = dmsg['FR_Wheel_Spd']
 
-        if msg.arbitration_id == 0x0B520202:
-            
-            self.vehicle_state[15] = dmsg['Motor_Spd_2']
-            self.vehicle_state[16] = 0
-            self.vehicle_state[17] = dmsg['Direction_2']
-    
-        if msg.arbitration_id == 0x0B520103:
-            
-            self.vehicle_state[18] = dmsg['Pre_Stu_3']
-            self.vehicle_state[19] = dmsg['Torque_Fbk_3']
-            self.vehicle_state[20] = 0
+        if msg.arbitration_id == 0x00000237:    # RL_Wheel_Spd_Feedback
+            self.vehicle_state[6] = dmsg['RL_Wheel_Spd']
 
-        if msg.arbitration_id == 0x0B520203:
-            
-            self.vehicle_state[21] = dmsg['Motor_Spd_3']
-            self.vehicle_state[22] = 0
-            self.vehicle_state[23] = dmsg['Direction_3']
-    
-        if msg.arbitration_id == 0x0B520104:
-            
-            self.vehicle_state[24] = dmsg['Pre_Stu_4']
-            self.vehicle_state[25] = dmsg['Torque_Fbk_4']
-            self.vehicle_state[26] = 0
+        if msg.arbitration_id == 0x00000247:    # RR_Wheel_Spd_Feedback
+            self.vehicle_state[7] = dmsg['RR_Wheel_Spd']
 
-        if msg.arbitration_id == 0x0B520204:
-            
-            self.vehicle_state[27] = dmsg['Motor_Spd_4']
-            self.vehicle_state[28] = 0
-            self.vehicle_state[29] = dmsg['Direction_4']
+        if msg.arbitration_id == 0x00000490:    # Brake_Feedback_1
+            self.vehicle_state[8] = dmsg['Brake_Feedback_1']
 
+        if msg.arbitration_id == 0x0B520101:    # Brake_Feedback_2
+            self.vehicle_state[9] = dmsg['Brake_Feedback_2']
 
-        if msg.arbitration_id == 0x00000381:
-            
-            self.vehicle_state[30] = dmsg['Direction_Str_1']
-            self.vehicle_state[31] = dmsg['Position_Str_1']
+        if msg.arbitration_id == 0x1801FFF4:    # Battery_BMS
+            self.vehicle_state[10] = dmsg['Current']
+            self.vehicle_state[11] = dmsg['Voltage']
+            self.vehicle_state[12] = dmsg['SOC']
+            self.vehicle_state[13] = dmsg['Status_1']
+            self.vehicle_state[14] = dmsg['Status_2']
 
-        if msg.arbitration_id == 0x00000382:
-            
-            self.vehicle_state[32] = dmsg['Direction_Str_2']
-            self.vehicle_state[33] = dmsg['Position_Str_2']
-
-
-        # control 
-
-        if msg.arbitration_id == 0x0A000117:
-            
-            self.ctrl_state[0] = dmsg['v_speed_dsr']
-            self.ctrl_state[1] = dmsg['steer_dsr']
-
-        if msg.arbitration_id == 0x0A000101:
-            
-            self.ctrl_state[2] = dmsg['Control_Enable']
-            self.ctrl_state[3] = dmsg['E_Brake']
-
-        if msg.arbitration_id == 0x0A000201:
-            
-            self.ctrl_state[4] = dmsg['Lati_h']
-            self.ctrl_state[5] = dmsg['Lati_l']
-
-        if msg.arbitration_id == 0x0A000202:
-            
-            self.ctrl_state[6] = dmsg['Long_h']
-            self.ctrl_state[7] = dmsg['Long_l']
-
-        if msg.arbitration_id == 0x0A000203:
-            
-            self.ctrl_state[8] = dmsg['GPS_VelN']
-            self.ctrl_state[9] = dmsg['GPS_VelE']
-
-        if msg.arbitration_id == 0x0A000204:
-            
-            self.ctrl_state[10] = dmsg['GPS_PosN']
-            self.ctrl_state[11] = dmsg['GPS_PosE']
-
-
-        if msg.arbitration_id == 0x00000205:
-            
-            self.ctrl_state[12] = dmsg['vx']
-            self.ctrl_state[13] = dmsg['vy']
-            self.ctrl_state[14] = dmsg['ax']
-            self.ctrl_state[15] = dmsg['Ay']
-
-        if msg.arbitration_id == 0x00000206:
-            
-            self.ctrl_state[16] = dmsg['Heading']
-            self.ctrl_state[17] = dmsg['Yaw']
-            self.ctrl_state[18] = dmsg['Sideslip']
-            self.ctrl_state[19] = dmsg['r_out']
-
-
-        if msg.arbitration_id == 0x00000207:
-            
-            self.ctrl_state[20] = dmsg['ey']
-            self.ctrl_state[21] = dmsg['eh']
-
-        if msg.arbitration_id == 0x0A000208:
-            
-            self.ctrl_state[22] = dmsg['r_in']
         
-        
-        
+
+        # control
+        if msg.arbitration_id == 0x0A000200:    # GPS_Time
+            self.ctrl_state[0] = dmsg['GPS_Time']
+
+        if msg.arbitration_id == 0x0A000201:    # GPS_Lati
+            self.ctrl_state[1] = dmsg['Lati_h']
+            self.ctrl_state[2] = dmsg['Lati_l']
+
+        if msg.arbitration_id == 0x0A000202:    # GPS_Long
+            self.ctrl_state[3] = dmsg['Long_h']
+            self.ctrl_state[4] = dmsg['Long_l']
+
+        if msg.arbitration_id == 0x0A000203:    # GPS_Vel
+            self.ctrl_state[5] = dmsg['GPS_VelN']
+            self.ctrl_state[6] = dmsg['GPS_VelE']
+
+        if msg.arbitration_id == 0x00000151:    # Steering_Brake_Control
+            self.ctrl_state[7] = dmsg['Brake']
+            self.ctrl_state[8] = dmsg['Front_Steering']
+            self.ctrl_state[9] = dmsg['Rear_Steering']
+
+        if msg.arbitration_id == 0x00000150:    # Wheel_Torque_Control
+            self.ctrl_state[10] = dmsg['FL_Torque_Ctrl']
+            self.ctrl_state[11] = dmsg['FR_Torque_Ctrl']
+            self.ctrl_state[12] = dmsg['RL_Torque_Ctrl']
+            self.ctrl_state[13] = dmsg['RR_Torque_Ctrl']
+
         pass
-    
     
     
     
@@ -489,8 +417,8 @@ class AGVCANRxAgent(object):
             
             msg = self.can_bus.recv()
             
-            self.process_can_report_msg(msg)
-            #self.process_can_report_msg_using_dbc(msg)
+            # self.process_can_report_msg(msg)
+            self.process_can_report_msg_using_dbc(msg)
 
             # log every raw message
             ts = time.time()
@@ -844,6 +772,7 @@ class AGVPi(object):
         self.imu_sample = np.zeros(16, dtype=np.float64)
 
         # GPS states
+        self.gps_imu_raw = (0,0,0,0,0,0,0,0)    # added on 0527/2022
         self.pos_llh = (0,0,0,0,0,0,0)
         self.gps_baseline_pos_ned = (0,0,0,0,0,0,0)
         self.gps_baseline_vel_ned = (0,0,0,0,0,0,0)
@@ -907,6 +836,7 @@ class AGVPi(object):
         
         pass
 
+
     def log_csv_record(self, fd, ts, tup):
         
         msg_csv = ','.join([str(value) for value in tup])
@@ -915,7 +845,6 @@ class AGVPi(object):
         fd.write(msg_csv)
         fd.write('\n')
         fd.flush()
-    
 
 
     def gps_thread(self):
@@ -927,6 +856,8 @@ class AGVPi(object):
         log_pos_llh = open('./log/gps_pos_llh.csv', 'w')
         log_baseline_ned = open('./log/gps_baseline_pos_ned.csv', 'w')
         log_vel_ned = open('./log/gps_baseline_vel_ned.csv', 'w')
+
+        log_gps_imu_raw = open('./log/gps_imu_raw.csv', 'w')    # added on 0527/2022
     
         sio = serial.Serial('/dev/ttyUSB0', 115200)
         
@@ -950,6 +881,12 @@ class AGVPi(object):
                 header_str = '0x%04X, 0x%04X, %d, %d' % (msg_type, sender, payload_len, len(payload))
     
                 #print(header_str)
+
+                # added on 0527/2022
+                if msg_type == 0x0900: # MSG_IMU_RAW
+                    gps_imu_raw = struct.unpack('<IBhhhhhhH', payload)
+                    self.gps_imu_raw = gps_imu_raw
+                    self.log_csv_record(log_gps_imu_raw, ts, gps_imu_raw)
     
                 if msg_type == 0x0102: # MSG_GPS_TIME
                     
@@ -1074,6 +1011,7 @@ class AGVPi(object):
     
         return (ts, sample)
 
+
     def arduino_sensor_thread(self):
         
         print('arduino_sensor_thread started.')
@@ -1145,8 +1083,6 @@ class AGVPi(object):
             else:
         
                 print("Unknown state! Program is corrupted!")
-
-
 
 
     def chassis_can_recv_thread(self):
@@ -1322,9 +1258,7 @@ class AGVPi(object):
             time.sleep(0.05);
         
         pass
-    
-    
-    
+ 
     
     def v2v_recv_thread(self):
         
@@ -1363,7 +1297,7 @@ class AGVPi(object):
             
             v2v_recv_log.write(v2v_csv)
             v2v_recv_log.write('\n')
-    
+
 
     def v2i_send_thread(self):
         
@@ -1428,10 +1362,8 @@ class AGVPi(object):
             
         
         pass
-    
-    
-    
-    
+ 
+
     def v2i_recv_thread(self):
         
         print('v2i_recv_thread started')
@@ -1470,10 +1402,8 @@ class AGVPi(object):
             
             v2i_recv_log.write(v2i_csv)
             v2i_recv_log.write('\n')
+ 
 
-            
-
-    
     def keyboard_thread(self):
         
         print('keyboard thread started.')
@@ -1488,7 +1418,6 @@ class AGVPi(object):
                 
             time.sleep(0.1)
         
-
 
     def process_js_event(self, ts, jsev_value, jsev_type, jsev_number):
         
@@ -1519,8 +1448,8 @@ class AGVPi(object):
         
         
         pass
-    
-    
+
+
     def js_thread(self):
         
         print('js thread started.')
@@ -1537,9 +1466,8 @@ class AGVPi(object):
             self.process_js_event(ts, jsev_value, jsev_type, jsev_number)
             
             time.sleep(0.1)
-    
-    
-    
+
+
     def drive_by_wire(self):
         
 
@@ -1560,9 +1488,6 @@ class AGVPi(object):
             time.sleep(0.01);
 
 
-
-
-
     def main_loop(self):
         
         threads = []
@@ -1578,15 +1503,11 @@ class AGVPi(object):
         #     threads.append(x_js)
         #     x_js.start()
           
-  
-  
-          
-              
+ 
         x_gps = threading.Thread(target=self.gps_thread)
         threads.append(x_gps)
         x_gps.start()
-            
-    
+
         x_as = threading.Thread(target=self.arduino_sensor_thread)
         threads.append(x_as)
         x_as.start()
@@ -1639,7 +1560,6 @@ def can_send_process(q_send, q_send_ctrl):
 
 if __name__ == '__main__':
     
-    
     q_can_recv = Queue()
     q_can_recv_ctrl = Queue()
     
@@ -1661,38 +1581,3 @@ if __name__ == '__main__':
 #     p2.terminate()
     
     pass
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
