@@ -858,6 +858,9 @@ class AGVPi(object):
         log_vel_ned = open('./log/gps_baseline_vel_ned.csv', 'w')
 
         log_gps_imu_raw = open('./log/gps_imu_raw.csv', 'w')    # added on 0527/2022
+        # log_gps_yaw = open('./log/gps_yaw.csv', 'w')
+
+        log_msg_type = open('./log/gps_msg_type.csv', 'w')
     
         sio = serial.Serial('/dev/ttyUSB0', 115200)
         
@@ -881,12 +884,22 @@ class AGVPi(object):
     
                 #print(header_str)
 
+                log_msg_type.write(str(hex(msg_type)) + ',' + str(sender) + ',' + str(payload_len))
+                log_msg_type.write('\n')
+                log_msg_type.flush()
+              
                 # added on 0527/2022
                 if msg_type == 0x0900: # MSG_IMU_RAW
-                    gps_imu_raw = struct.unpack('<IBhhhhhh', payload)
-                    print('gps_imu_raw:\n', gps_imu_raw)
+                    gps_imu_raw = struct.unpack('<IBhhhhhhH', payload)
+                    # print('gps_imu_raw:\n', gps_imu_raw)
                     self.gps_imu_raw = gps_imu_raw
                     self.log_csv_record(log_gps_imu_raw, ts, gps_imu_raw)
+
+                # if msg_type == 0x0221: # MSG_YAW
+                #     gps_yaw = struct.unpack('<IiiifffBH', payload)
+                #     # print('gps_imu_raw:\n', gps_imu_raw)
+                #     self.gps_yaw = gps_yaw
+                #     self.log_csv_record(log_gps_yaw, ts, gps_yaw)
     
                 if msg_type == 0x0102: # MSG_GPS_TIME
                     
